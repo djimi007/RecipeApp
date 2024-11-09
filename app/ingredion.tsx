@@ -9,7 +9,7 @@ export default function Index() {
       <FlatList
         className="flex-1"
         data={data}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item, index) => `${item.title}-${index}`}
         renderItem={({ item: recipe }) => (
           <View className="bg-white rounded-lg shadow-lg p-4 mb-4 border-l-4 border-orange-500">
             <Text className="text-2xl font-bold text-orange-800 mb-4">{recipe.title}</Text>
@@ -17,7 +17,7 @@ export default function Index() {
             <View className="mb-4">
               <Text className="text-lg font-semibold text-orange-700 mb-2">Ingredients:</Text>
               {recipe.ingredients.split("|").map((ingredient, i) => (
-                <Text key={i} className="text-gray-700 ml-4">
+                <Text key={`ingredient-${i}`} className="text-gray-700 ml-4">
                   • {ingredient.trim()}
                 </Text>
               ))}
@@ -34,7 +34,7 @@ export default function Index() {
                 .split(".")
                 .filter(Boolean)
                 .map((instruction, i) => (
-                  <Text key={i} className="text-gray-700 ml-4 mb-2">
+                  <Text key={`instruction-${i}`} className="text-gray-700 ml-4 mb-2">
                     {i + 1}. {instruction.trim()}
                   </Text>
                 ))}

@@ -1,9 +1,11 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, ToastAndroid, View } from "react-native";
 import React from "react";
 import { useSharedValue, withSpring, withRepeat, useAnimatedStyle } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
 import { useIngredient, useRecentSearch } from "@/state/searchState";
 import { router } from "expo-router";
+import * as Clipboard from "expo-clipboard";
+
 const Page = () => {
   const bounceValue = useSharedValue(0);
 
@@ -26,6 +28,11 @@ const Page = () => {
       ],
     };
   });
+
+  const copyToClipboard = async ({ index }: { index: string }) => {
+    await Clipboard.setStringAsync(recentSearches[Number(index)]);
+    ToastAndroid.show("Ingredient copied successfully", ToastAndroid.SHORT);
+  };
 
   return (
     <View className="flex-1 bg-orange-50 ">
@@ -60,17 +67,26 @@ const Page = () => {
             Recent Searches
           </Text>
           <View className="flex-row flex-wrap justify-center gap-3">
-            {recentSearches.map((e, i) =>
-              i % 2 === 0 ? (
-                <View className="bg-green-100 px-4 py-2 rounded-full">
-                  <Text className="text-green-800 font-semibold">{e}</Text>
-                </View>
-              ) : (
-                <View className="bg-orange-100 px-4 py-2 rounded-full">
-                  <Text className="text-orange-800 font-semibold">{e}</Text>
-                </View>
-              )
-            )}
+            {recentSearches.map((e, i) => (
+              <Pressable
+                android_ripple={{ color: "##a6f7ed" }} // Adjusted radius for a better fit
+                onPress={() => copyToClipboard({ index: i.toString() })}
+                key={`${i}`}
+                className={
+                  i % 2 === 0
+                    ? "bg-green-100 px-4 py-2 rounded-full"
+                    : "bg-orange-100 px-4 py-2 rounded-full"
+                }
+              >
+                <Text
+                  className={
+                    i % 2 === 0 ? "text-green-800 font-semibold" : "text-orange-800 font-semibold"
+                  }
+                >
+                  {e}
+                </Text>
+              </Pressable>
+            ))}
           </View>
         </View>
 
