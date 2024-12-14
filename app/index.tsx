@@ -1,10 +1,9 @@
-import { Pressable, StyleSheet, Text, TextInput, ToastAndroid, View } from "react-native";
-import React from "react";
-import { useSharedValue, withSpring, withRepeat, useAnimatedStyle } from "react-native-reanimated";
-import Animated from "react-native-reanimated";
 import { useIngredient, useRecentSearch } from "@/state/searchState";
-import { router } from "expo-router";
 import * as Clipboard from "expo-clipboard";
+import { router } from "expo-router";
+import React from "react";
+import { Pressable, Text, TextInput, ToastAndroid, View } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
 const Page = () => {
   const bounceValue = useSharedValue(0);
